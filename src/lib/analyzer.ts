@@ -14,7 +14,7 @@ export const SOFT_SKILLS = ["communication","teamwork","leadership","problem sol
 const ACTION_VERBS = ["developed","built","designed","led","implemented","created","improved","optimized","managed","launched","delivered","automated","reduced","increased","analyzed","engineered","architected","collaborated","mentored","streamlined","deployed","integrated","resolved","achieved","coordinated","organized","established","migrated","researched","trained"];
 const WEAK_PHRASES = ["worked on","responsible for","helped with","involved in","duties included","assisted in","part of","tasked with"];
 const GENERIC_SUMMARY = ["hardworking","looking for a job","seeking a challenging","team player","quick learner","self-motivated","passionate individual","to utilize my skills"];
-const SECTIONS: Record<string, RegExp> = {
+const SECTIONS = {
   Summary: /^\s*(professional\s+)?(summary|profile|objective|about me|career objective)\b/im,
   Experience: /^\s*(work\s+|professional\s+)?(experience|employment|work history|internships?)\b/im,
   Education: /^\s*(education|academic|qualifications?)\b/im,
@@ -60,7 +60,7 @@ export function analyzeResume(raw: string): Analysis {
   const words = (text.match(/\b\w+\b/g) || []).length;
   const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
   const bulletLines = lines.filter((l) => /^[•●▪◦\-*–·]\s?/.test(l));
-  const sections = Object.fromEntries(Object.entries(SECTIONS).map(([k, r]) => [k, r.test(text)])) as Record<string, boolean>;
+  const sections = Object.fromEntries(Object.entries(SECTIONS).map(([k, r]) => [k, r.test(text)])) as Record<keyof typeof SECTIONS, boolean>;
   const contact = {
     email: /[\w.+-]+@[\w-]+\.[\w.]+/.test(text),
     phone: /(\+?\d[\d\s-]{8,}\d)/.test(text),

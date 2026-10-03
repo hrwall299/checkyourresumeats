@@ -20,8 +20,7 @@ export function SiteHeader() {
         <Logo />
         <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex">
           <a href="/#how-it-works" className="hover:text-foreground">How it works</a>
-          <Link to="/pricing" className="hover:text-foreground">Pricing</Link>
-          <Link to="/guides" className="hover:text-foreground">Guides</Link>
+          <a href="/#pricing" className="hover:text-foreground">Pricing</a>
           <a href="/#faq" className="hover:text-foreground">FAQ</a>
         </nav>
         <Button asChild variant="hero" size="sm" className="h-9 px-4">
@@ -34,13 +33,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   const links: { to: string; label: string }[] = [
-    { to: "/ats-resume-checker", label: "ATS Resume Checker" },
-    { to: "/pricing", label: "Pricing" },
-    { to: "/guides", label: "Guides" },
-    { to: "/privacy", label: "Privacy Policy" },
-    { to: "/terms", label: "Terms" },
-    { to: "/cookies", label: "Cookie Policy" },
-    { to: "/contact", label: "Contact" },
+    { to: "/#pricing", label: "Pricing" },
   ];
   return (
     <footer className="mt-24 border-t border-border bg-card">
@@ -54,7 +47,7 @@ export function SiteFooter() {
           <a href="/#how-it-works" className="text-muted-foreground hover:text-foreground">How It Works</a>
           <a href="/#faq" className="text-muted-foreground hover:text-foreground">FAQ</a>
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className="text-muted-foreground hover:text-foreground">{l.label}</Link>
+            <a key={l.to} href={l.to} className="text-muted-foreground hover:text-foreground">{l.label}</a>
           ))}
         </nav>
       </div>
