@@ -78,7 +78,7 @@ export function analyzeResume(raw: string): Analysis {
   const repeated = Object.entries(wordFreq).filter(([w, c]) => c > Math.max(6, words / 60) && !["experience","project","projects","skills","using","development"].includes(w));
   const longLines = lines.filter((l) => l.split(/\s+/).length > 45).length;
 
-  const coreSections = ["Experience", "Education", "Skills"].filter((s) => sections[s]).length;
+  const coreSections = (["Experience", "Education", "Skills"] as const).filter((s) => sections[s]).length;
   const structure = clamp(25 + coreSections * 18 + (sections.Summary ? 8 : 0) + (sections.Projects ? 7 : 0) + (contact.email ? 3 : 0) + (contact.phone ? 3 : 0));
   const keyword = clamp(20 + Math.min(detected.length, 14) * 5 + Math.min(softFound.length, 3) * 3);
   const formatting = clamp(95 - oddSymbols * 3 - longLines * 4 - (bulletLines.length === 0 ? 20 : 0) - (words < 200 ? 15 : 0) - (words > 1200 ? 10 : 0));
@@ -99,7 +99,7 @@ export function analyzeResume(raw: string): Analysis {
   const issues: Issue[] = [];
   const add = (cond: boolean, severity: Severity, title: string, why: string) => cond && issues.push({ severity, title, why });
   add(!contact.email || !contact.phone, "error", "Contact details incomplete", "Recruiters and ATS profiles need a clear email and phone number.");
-  for (const s of ["Experience", "Education", "Skills"]) add(!sections[s], "error", `No clear "${s}" section heading`, "ATS parsers look for standard headings to map your content into fields.");
+  for (const s of ["Experience", "Education", "Skills"] as const) add(!sections[s], "error", `No clear "${s}" section heading`, "ATS parsers look for standard headings to map your content into fields.");
   add(metrics < 2, "error", "Few measurable achievements", "Numbers (%, users, time saved) make impact clear. Only add metrics you can genuinely back up.");
   add(weak.length > 0, "warning", "Some bullet points use weak phrasing", `Phrases like "${weak.slice(0, 2).join('", "')}" describe duties, not results. Lead with an action verb.`);
   add(verbsUsed.length < 4, "warning", "Limited use of action verbs", "Starting bullets with verbs like Developed, Led or Improved reads stronger to both ATS and recruiters.");
