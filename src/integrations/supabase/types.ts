@@ -14,13 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      premium_purchases: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          payment_status: string
+          provider_order_id: string | null
+          provider_payment_id: string | null
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          payment_status?: string
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          payment_status?: string
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      premium_subscriptions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          purchase_id: string
+          started_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          purchase_id: string
+          started_at?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          purchase_id?: string
+          started_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "premium_subscriptions_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: true
+            referencedRelation: "premium_purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      activate_premium_after_verified_payment: {
+        Args: { _provider_payment_id: string; _purchase_id: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
